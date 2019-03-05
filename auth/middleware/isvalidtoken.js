@@ -12,7 +12,6 @@ let isValidToken = (req, res, next) => {
 
     jwt.verify(token, config.secret, (err, decodedToken) => {
       if (err) {
-        console.log('Error volt');
         return res.json({
           success: false,
           message: 'Token is not valid'
@@ -22,7 +21,6 @@ let isValidToken = (req, res, next) => {
         TokenBlackList.findOne({token: token}).then(function(result){
               
               if (result !=null){ //feketelistas az adott token
-                console.log('Nem volt error, de a db-ben feketelistasnak gondolja');
                 return res.json({ 
                   success: false,
                   message: 'Token is not valid'

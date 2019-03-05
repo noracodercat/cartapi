@@ -8,8 +8,6 @@ var isValidToken = require('../auth/middleware/isvalidtoken');
 
 router.get('/', isValidToken, function(req,res){
     User.findOne({username:req.token.username}).then(function(result){
-        console.log('Before error occurred when communicating with the database' + result);
-        console.log('cart: '+result.cart);
       if( result!= null){
         res.json({
           success:true,
@@ -89,11 +87,6 @@ router.delete('/', isValidToken, function(req,res){
     });
   });
 });
-
-
-
-
-
 
 
 module.exports = router;

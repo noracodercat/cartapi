@@ -12,7 +12,7 @@ let logoutIfClientHasBeenSignedIn = function(req, res) {
   
       jwt.verify(token, config.secret, (err, decodedToken) => {
         if (!err) { //ha volt tokenje amit mi adtunk ki es ervenyes akkor azt berakjuk feketelistara
-          TokenBlackList.create({token: token, expireAt: new Date()}, function(err,newDocument){
+          TokenBlackList.create({token: token, expireAt: new Date(decodedToken.exp * 1000)}, function(err,newDocument){
             if (err){
               res.json({
                 success: false,
@@ -41,8 +41,6 @@ let logoutIfClientHasBeenSignedIn = function(req, res) {
     //TODO: ha volt ervenyes tokenje (be volt jelentkezve) akkor ezt a tokent rarakjuk egy 
     //feketelistara, es ennyi, ha el akar erni a user egy protected route-ot, akkor nem fogm enni a blacklist miatt
     //helyette ujra be kell jelentkeznie
-    
-    //res.redirect('/');
   }
 
   module.exports =logoutIfClientHasBeenSignedIn;

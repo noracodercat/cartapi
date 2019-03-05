@@ -16,7 +16,6 @@ var logoutIfClientHasBeenSignedIn = require('./auth/middleware/logoutifpossible'
 mongoose.connect("mongodb://localhost/cart_api_db");
 mongoose.Promise=global.Promise;
 
-
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
@@ -24,11 +23,11 @@ app.use('/login', loginRouter);
 
 app.get('/logout', logoutIfClientHasBeenSignedIn);
 
-app.get('/dashboard', isValidToken, function(req, res) {
-  res.json({dashboard: 'You reached the protected route'});
-});
-
 app.use('/cart', cartRouter);
 
-
+/*
+app.get('/protectedTest', isValidToken, function(req, res) {
+  res.json({dashboard: 'You reached the protected route'});
+});
+*/
 app.listen(3000);
