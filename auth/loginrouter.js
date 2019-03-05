@@ -3,6 +3,7 @@ var router = express.Router();
 let jwt = require('jsonwebtoken');
 const config = require('../config');
 let TokenBlackList = require('../models/token');
+let User = require('../models/user');
 
 //base route is : '/login'
 
@@ -16,8 +17,8 @@ let checkIsClientLoggedInAlready = async function(req, res, next) {
   
       jwt.verify(token, config.secret, (err, decodedToken) => {
         if( !err){ //van ervenyes tokenje amirol nem tudjuk h feketelistas e
-          TokenBlackList.findOne({token: token}).then(function(res){
-            if (res != null){ //feketelistas az adott token,vagyis mar kilepett, belephet ujra
+          TokenBlackList.findOne({token: token}).then(function(resultToken){
+            if (resultToken != null){ //feketelistas az adott token,vagyis mar kilepett, belephet ujra
               console.log('Feketelistas tokent kuldott bejelentkezesnel');
               next();
             }else{  //van egy ervnyes tokenje ami nem volt rajta a feketelistan, nem lephet be ujra
@@ -47,33 +48,38 @@ let checkIsClientLoggedInAlready = async function(req, res, next) {
     
           let username = req.body.username;
           let password = req.body.password;
-          
-          let mockUsername = 'admin';
-          let mockPwd = 'password';
-    
-          if (username && password) {
-            if (username === mockUsername && password === mockPwd) {
-              let token = jwt.sign({username: username},
-                config.secret,
-                { expiresIn: '60s' 
-                }
-              );
-              
-              res.json({
-                success: true,
-                message: 'Authentication successful!',
-                token: token
-              });
-            } else {
-              res.send(403).json({
+          console.log('username: '+ username + ' password: '+ password);
+          //TODO bcrypt password!
+          if (username && password){
+            User.findOne({username:username, password: password}).then(resultUser=>{
+              console.log('resultUser: '+resultUser);
+              if(resultUser != null){
+                let token = jwt.sign(
+                  {username: username},
+                  config.secret,
+                  { expiresIn: '60s' }
+                );
+                res.json({
+                  success: true,
+                  message: 'Authentication successful!',
+                  token: token
+                });
+              } else {
+                res.status(403).json({
+                  success: false,
+                  message: 'Incorrect username or password'
+                });
+              }
+            }).catch( err =>{
+              res.status(400).json({
                 success: false,
-                message: 'Incorrect username or password'
+                message: 'Authentication failed due to some error when querying the database, try again later!'
               });
-            }
-          } else {
-            res.send(400).json({
+            });
+          } else{
+            res.status(400).json({
               success: false,
-              message: 'Authentication failed! Please check the request'
+              message: 'Authentication failed! Please check the request and supply username and password'
             });
           }
     };

@@ -16,7 +16,7 @@ let logoutIfClientHasBeenSignedIn = function(req, res) {
             if (err){
               res.json({
                 success: false,
-                message: 'Logout was not successful, try again little later!'
+                message: 'Logout cannot be done, token is not valid!'
               });
             } else {
               res.json({

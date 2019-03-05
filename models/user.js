@@ -1,5 +1,19 @@
 var mongoose= require('mongoose');
 
+/*
+var CartSchema= new mongoose.Schema({
+    items: { 
+        type:[CartItemSchema] , 
+        default:[]
+    } 
+});
+
+var CartItemSchema = new mongoose.Schema({
+     
+        itemId: {type:String, unique:true }, 
+        amount: Number
+});
+*/
 var CartSchema= new mongoose.Schema({
     items:[
         { 
@@ -10,10 +24,10 @@ var CartSchema= new mongoose.Schema({
 });
 
 var UserSchema= new mongoose.Schema({
-    email: { type: String, unique: true },
-    username: String,
+    //email: { type: String, unique: true },
+    username: { type: String, unique: true },
     password: String,
-    cart: CartSchema
+    cart: {type: CartSchema, default: {items: []}}  
 });
 
 
