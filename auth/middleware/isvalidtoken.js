@@ -17,10 +17,8 @@ let isValidToken = (req, res, next) => {
           message: 'Token is not valid'
         });
       } else {
-        //TODO: check hogy nincs e feketelistan ez a token, ha feketelistan van akkor elbukott az autentikalas
         TokenBlackList.findOne({token: token}).then(function(result){
-              
-              if (result !=null){ //feketelistas az adott token
+              if (result !=null){ //if the token is on the blacklist
                 return res.json({ 
                   success: false,
                   message: 'Token is not valid'

@@ -5,13 +5,13 @@ let TokenBlackList = require('../../models/token');
 let logoutIfClientHasBeenSignedIn = function(req, res) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
     
-    if (token) { //if client has a token in the header we pull it out
+    if (token) { 
       if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);
       }
   
       jwt.verify(token, config.secret, (err, decodedToken) => {
-        if (!err) { //ha volt tokenje amit mi adtunk ki es ervenyes akkor azt berakjuk feketelistara
+        if (!err) { //if the user has a valid token, then we add this token to the blacklist
           TokenBlackList.create({token: token, expireAt: new Date(decodedToken.exp * 1000)}, function(err,newDocument){
             if (err){
               res.json({
@@ -25,22 +25,19 @@ let logoutIfClientHasBeenSignedIn = function(req, res) {
               });
             }
           });
-        } else { //volt tokenje de nem volt érvényes
+        } else { //user has invalid token
           res.json({
             success: true,
             message: 'Logout cannot be done, you have not been signed in!'
           });
         }
       });
-    } else { //tokenje sem volt
+    } else { //user doesn't have token 
       res.json({
         success: true,
         message: 'Logout cannot be done, you have not been signed in!'
       });
     }
-    //TODO: ha volt ervenyes tokenje (be volt jelentkezve) akkor ezt a tokent rarakjuk egy 
-    //feketelistara, es ennyi, ha el akar erni a user egy protected route-ot, akkor nem fogm enni a blacklist miatt
-    //helyette ujra be kell jelentkeznie
   }
 
   module.exports =logoutIfClientHasBeenSignedIn;

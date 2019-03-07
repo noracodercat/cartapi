@@ -4,7 +4,6 @@ var mongoose= require('mongoose');
 var jwt = require('jsonwebtoken');
 const config = require('./config');
 
-
 var User = require('./models/user');
 var TokenBlackList = require('./models/token');
 

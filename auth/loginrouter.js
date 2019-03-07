@@ -17,27 +17,27 @@ let checkIsClientLoggedInAlready = async function(req, res, next) {
       }
   
       jwt.verify(token, config.secret, (err, decodedToken) => {
-        if( !err){ //van ervenyes tokenje amirol nem tudjuk h feketelistas e
+        if( !err){ //user has a valid token, but we don't know if it is in the Token-BlackList
           TokenBlackList.findOne({token: token}).then(function(resultToken){
-            if (resultToken != null){ //feketelistas az adott token,vagyis mar kilepett, belephet ujra
+            if (resultToken != null){ //the token is in the Blacklist, so user logged out earlier, so he/she can log in now
               next();
-            }else{  //van egy ervnyes tokenje ami nem volt rajta a feketelistan, nem lephet be ujra
+            }else{  //user has a valid token, and the blacklist doesn't contain this token, so user is currently logged in, he/she cant log in again
               res.json({
                 success:false,
                 message:'Login was not successful, you already have a valid token!'
               });
             }
-          }).catch(function(err){ //nem volt feketelistas az adott token, van ervenyes tokenje, nem lephet be ujra
+          }).catch(function(err){ 
             res.json({
               success:false,
-              message:'Login was not successful, you already have a valid token!'
+              message:'Login was not successful!'
             });
           });
-        } else { //nem volt valid a token
+        } else { //user has an invalid token
           next();
         }
       });
-    } else { //nem volt tokenje
+    } else { //user don't have token
       next();
     }
   };
@@ -47,7 +47,6 @@ let checkIsClientLoggedInAlready = async function(req, res, next) {
           let username = req.body.username;
           let password = req.body.password;
          
-          //TODO bcrypt password!
           if (username && password){
             User.findOne({username:username}).then(resultUser=>{
               if(resultUser != null){
