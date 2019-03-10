@@ -4,6 +4,9 @@ var mongoose= require('mongoose');
 var jwt = require('jsonwebtoken');
 const config = require('./config');
 
+//plus cors
+//let cors = require('cors');
+
 var User = require('./models/user');
 var TokenBlackList = require('./models/token');
 
@@ -18,11 +21,23 @@ mongoose.Promise=global.Promise;
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+//app.use(cors());
+
+app.use( function(req,res,next){
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.append('Access-Control-Max-Age' , '8000');
+  next();
+});
+
 app.use('/login', loginRouter);
 
 app.get('/logout', logoutIfClientHasBeenSignedIn);
 
 app.use('/cart', cartRouter);
+
+
 
 /*
 app.get('/protectedTest', isValidToken, function(req, res) {
