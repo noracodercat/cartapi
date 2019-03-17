@@ -55,7 +55,7 @@ let checkIsClientLoggedInAlready = async function(req, res, next) {
                     let token = jwt.sign(
                       {username: username},
                       config.secret,
-                      { expiresIn: '60s' }
+                      { expiresIn: '20 days' }
                     );
                     res.json({
                       success: true,
