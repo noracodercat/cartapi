@@ -10,4 +10,6 @@ to automatically delete the expired tokens from the blacklist.
 The test data for logging in is in the dbpopulate folder, there you can see the test credentials. You should manually add the two users 
 to the locally running MongoDB, after you can make request to log in with the test data.
 
+To add products to MongoDB, run this command in the dbpupolate folder: 'node addproducts'
+
 
