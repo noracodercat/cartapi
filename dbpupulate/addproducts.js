@@ -16,33 +16,6 @@ async function myFunc(){
     });
     
     await Product.create({
-        id: "2347",
-        name: "Little french fries",
-        available: true,
-        weightInG: 100,
-        price: 1,
-        imageUrl:"https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
-    });
-    
-    await Product.create({
-        id: "2348",
-        name: "Medium french fries",
-        available: true,
-        weightInG: 200,
-        price: 1.5,
-        imageUrl:"https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
-    });
-    
-    await Product.create({
-        id: "2349",
-        name: "Big french fries",
-        available: true,
-        weightInG: 300,
-        price: 2,
-        imageUrl: "https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
-    });
-    
-    await Product.create({
         id: "3560",
         name: "Grilled pork",
         available: true,
@@ -157,6 +130,33 @@ async function myFunc(){
         weightInG: 200,
         price: 1.5,
         imageUrl: "https://as1.ftcdn.net/jpg/02/28/09/94/500_F_228099491_JJc1nkAHCZLXsfYgeBVvHxYO41kNE81O.jpg"
+    });
+
+    await Product.create({
+        id: "2347",
+        name: "Little french fries",
+        available: true,
+        weightInG: 100,
+        price: 1,
+        imageUrl:"https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
+    });
+    
+    await Product.create({
+        id: "2348",
+        name: "Medium french fries",
+        available: true,
+        weightInG: 200,
+        price: 1.5,
+        imageUrl:"https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
+    });
+    
+    await Product.create({
+        id: "2349",
+        name: "Big french fries",
+        available: true,
+        weightInG: 300,
+        price: 2,
+        imageUrl: "https://as1.ftcdn.net/jpg/00/46/24/84/500_F_46248483_gyGNXtWgaJjB1VzBmsnfmiiTedw1Da2j.jpg"
     });
 } 
 
